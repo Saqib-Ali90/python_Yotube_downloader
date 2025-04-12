@@ -4,6 +4,12 @@ Power of AI + Python (flask ) + Html
 This project demonstrates how the Python can be used at backend of a webpage for downloading any YouTube video.
 Flask provides a user-friendly Python API for creating web applications. Armin Ronacher developed this framework with a focus on clarity and ease of understanding, offering a more direct approach compared to some other frameworks. Built upon the WSGI toolkit and the Jinja2 template engine, Flask enables developers to get started quickly and build sophisticated web solutions.
 
+How to Setup: 
+1. You need an IDE like jupyter notebook or VS Code or PyCharm
+2. you need to install the flask (or FAST API)
+3. you need to install yt-dlp package   (pip install flask yt-dlp)
+4. Run  http://127.0.0.1:5000
+   
 Benefits of Flask:
 
 Lightweight and Minimalist: Starts with only the essentials, allowing you to add components as needed, keeping your application lean and fast.
