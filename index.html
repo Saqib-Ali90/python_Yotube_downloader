@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Video Downloader</title>
+    <style>
+        /* Your existing styles go here */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #ff416c, #ff4b2b);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        input, select, button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+        button {
+            background-color: #ff416c;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff4b2b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>YouTube Video Downloader</h2>
+        <form id="downloadForm" action="/download" method="post">
+            <input type="text" name="url" id="urlInput" placeholder="Paste YouTube URL" required>
+            <button type="button" onclick="fetchFormats()">Fetch Qualities</button>
+
+            <select name="format_id" id="formatDropdown" style="display:none;"></select>
+            <button type="submit" id="downloadBtn" style="display:none;">Download</button>
+        </form>
+    </div>
+
+    <!-- 👇 JavaScript goes here -->
+    <script>
+        async function fetchFormats() {
+            const url = document.getElementById('urlInput').value;
+            if (!url) return;
+
+            const res = await fetch('/formats', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url })
+            });
+
+            const data = await res.json();
+            const dropdown = document.getElementById('formatDropdown');
+            dropdown.innerHTML = '';
+
+            if (data.formats.length === 0) {
+                alert("No formats available.");
+                return;
+            }
+
+            data.formats.forEach(format => {
+                const option = document.createElement('option');
+                const resolution = format.resolution ? `${format.resolution}px` : 'Audio';
+                option.value = format.format_id;
+                option.text = `${format.resolution} - ${format.ext} (${format.note})`;
+                dropdown.appendChild(option);
+            });
+
+            dropdown.style.display = 'block';
+            document.getElementById('downloadBtn').style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>
+
